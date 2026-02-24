@@ -1,6 +1,6 @@
 # CleanSlice Skills
 
-Agent skills for the [CleanSlice](https://cleanslice.dev) architecture framework — NestJS + Nuxt full-stack apps using Clean Architecture with vertical slices.
+Agent skills for the [CleanSlice](https://cleanslice.org) architecture framework — NestJS + Nuxt full-stack apps using Clean Architecture with vertical slices.
 
 ---
 
@@ -8,6 +8,7 @@ Agent skills for the [CleanSlice](https://cleanslice.dev) architecture framework
 
 | Skill | Description |
 |-------|-------------|
+| [`setup`](./setup/SKILL.md) | Claude Code setup: install MCP server and development skills (shadcn-vue, cleanslice, conventional-commits) |
 | [`cleanslice`](./cleanslice/SKILL.md) | Complete CleanSlice architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
 | [`conventional-commits`](./conventional-commits/SKILL.md) | Conventional Commits v1.0.0 for git messages: commit types, scope (slice name), breaking changes, SemVer correlation |
 
@@ -21,6 +22,7 @@ Skills follow the [Agent Skills](https://agentskills.io) open standard and work 
 
 ```bash
 # Install a specific skill
+npx skills add CleanSlice/skills --skill setup
 npx skills add CleanSlice/skills --skill cleanslice
 npx skills add CleanSlice/skills --skill conventional-commits
 
@@ -58,6 +60,7 @@ cp -r /tmp/cleanslice-skills/cleanslice ~/.claude/skills/
 Once installed, skills are available in Claude Code:
 
 ```
+/setup                   # MCP + skills installation
 /cleanslice              # Architecture conventions
 /conventional-commits    # Commit message format
 ```
@@ -81,6 +84,10 @@ The `cleanslice` skill bundles six reference documents:
 | [`references/typescript.md`](./cleanslice/references/typescript.md) | TypeScript standards: no-any, I prefix, Types suffix, import aliases |
 | [`references/errors.md`](./cleanslice/references/errors.md) | Error pattern: BaseError, domain errors, interceptor, no try/catch in controllers |
 
+### setup
+
+A single-file skill that configures Claude Code for CleanSlice development: adds the MCP server and installs the required agent skills (shadcn-vue, cleanslice, conventional-commits).
+
 ### conventional-commits
 
 A single-file skill covering the [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) specification: commit types, scope (use slice name), description rules, breaking changes, and examples.
@@ -89,6 +96,7 @@ A single-file skill covering the [Conventional Commits v1.0.0](https://www.conve
 
 ## Links
 
-- [CleanSlice Docs](https://cleanslice.dev)
-- [GitHub — CleanSlice Studio](https://github.com/CleanSlice/studio)
+- [CleanSlice Docs](https://cleanslice.org)
+- [CleanSlice MCP](https://mcp.cleanslice.org)
+- [GitHub](https://github.com/CleanSlice/nest-nuxt-starter-kit)
 - [Agent Skills Standard](https://agentskills.io)

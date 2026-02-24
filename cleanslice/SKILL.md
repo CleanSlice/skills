@@ -171,5 +171,6 @@ Rules: lowercase · no period · imperative mood · under 72 chars
 
 ## Official Documentation
 
-- CleanSlice Docs: https://cleanslice.dev
-- GitHub: https://github.com/CleanSlice/studio
+- CleanSlice Docs: https://cleanslice.org
+- CleanSlice MCP: https://mcp.cleanslice.org
+- GitHub: https://github.com/CleanSlice/nest-nuxt-starter-kit
