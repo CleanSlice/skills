@@ -9,6 +9,7 @@ Agent skills for the [CleanSlice](https://cleanslice.dev) architecture framework
 | Skill | Description |
 |-------|-------------|
 | [`cleanslice`](./cleanslice/SKILL.md) | Complete CleanSlice architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
+| [`conventional-commits`](./conventional-commits/SKILL.md) | Conventional Commits v1.0.0 for git messages: commit types, scope (slice name), breaking changes, SemVer correlation |
 
 ---
 
@@ -19,8 +20,9 @@ Skills follow the [Agent Skills](https://agentskills.io) open standard and work 
 ### Quick install via `skills` CLI
 
 ```bash
-# Install the cleanslice skill into your project
+# Install a specific skill
 npx skills add CleanSlice/skills --skill cleanslice
+npx skills add CleanSlice/skills --skill conventional-commits
 
 # Install all CleanSlice skills
 npx skills add CleanSlice/skills
@@ -53,17 +55,20 @@ cp -r /tmp/cleanslice-skills/cleanslice ~/.claude/skills/
 
 ## Usage
 
-Once installed, the skill is available in Claude Code as `/cleanslice`:
+Once installed, skills are available in Claude Code:
 
 ```
-/cleanslice
+/cleanslice              # Architecture conventions
+/conventional-commits    # Commit message format
 ```
 
-Claude will load the skill and apply CleanSlice architecture conventions to the current task. The skill also loads automatically when you work on CleanSlice projects — Claude detects it from the description and applies the rules without an explicit invocation.
+Claude loads skills automatically when relevant — `/cleanslice` activates on CleanSlice projects, `/conventional-commits` activates when writing commit messages.
 
 ---
 
 ## What's Included
+
+### cleanslice
 
 The `cleanslice` skill bundles six reference documents:
 
@@ -75,6 +80,10 @@ The `cleanslice` skill bundles six reference documents:
 | [`references/gateway.md`](./cleanslice/references/gateway.md) | Gateway pattern with full code examples, abstract class, DI wiring |
 | [`references/typescript.md`](./cleanslice/references/typescript.md) | TypeScript standards: no-any, I prefix, Types suffix, import aliases |
 | [`references/errors.md`](./cleanslice/references/errors.md) | Error pattern: BaseError, domain errors, interceptor, no try/catch in controllers |
+
+### conventional-commits
+
+A single-file skill covering the [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) specification: commit types, scope (use slice name), description rules, breaking changes, and examples.
 
 ---
 
