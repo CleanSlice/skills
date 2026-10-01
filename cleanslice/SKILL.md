@@ -22,7 +22,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 | Slice folder name | SINGULAR: `user/` not `users/` |
 | Route/page files | PLURAL: `/users`, `users.vue` |
 | DTO file name | camelCase: `createUser.dto.ts` |
-| Data access layer | Gateway (NOT Repository) |
+| Data access layer | Gateway for database access; Repository for independent adapters |
 | State management | Pinia `stores/` (NOT composables) |
 | Component entry | `Provider.vue` required in every folder |
 | DI tokens | Abstract class with `I` prefix: `IUserGateway` |
@@ -87,16 +87,9 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 
 ## Critical Rules
 
-### Mandatory Four-Phase Workflow
+### Authorized workflow
 
-Every task follows these phases — **stop and wait for user approval between each**:
-
-| Phase | What You Do | End With |
-|-------|-------------|----------|
-| **Phase 1** | High-level plan: slices, pages, endpoints (NO file paths) | "Do you approve?" → STOP |
-| **Phase 2** | Detailed plan: file paths, schemas, components, DTOs | "Do you approve?" → STOP |
-| **Phase 3** | Implementation: API first, then App | — |
-| **Phase 4** | Review: validate against patterns, plan next iteration | "STOP or continue?" → STOP |
+Follow understand → plan → implement → verify. An approved task authorizes its scope; do not ask again between phases. Ask for missing blocking requirements or material scope changes. Preserve project merge/deploy gates. See `references/workflow.md`.
 
 ### Technology Stack (FIXED — Never Ask)
 
@@ -104,7 +97,7 @@ Every task follows these phases — **stop and wait for user approval between ea
 api/    → NestJS + Prisma
 app/    → Nuxt 3 + Vue 3 + Pinia
 styling → Tailwind + shadcn-vue
-db      → PostgreSQL (SQLite for dev)
+db      → PostgreSQL; persistence tests use the target database engine
 ```
 
 ### Slice Structure
@@ -132,8 +125,8 @@ api/src/slices/{slice}/             app/slices/{slice}/
 
 | Wrong | Correct |
 |-------|---------|
-| `.repository.ts` | `.gateway.ts` |
-| `AiService`, `ChatService` (data access) | `AiGateway`, `ChatGateway` — external integrations are gateways |
+| Extra repository layer over Prisma | Gateway uses Prisma directly; independent adapters/capabilities may be repositories |
+| Domain directly imports an external SDK | Domain gateway contract → data gateway → independent SDK adapter |
 | `UserRepository` | `UserGateway` (Prisma IS the repository) |
 | `composables/useChat.ts` for state | `stores/chat.ts` |
 | `create-message.dto.ts` | `createMessage.dto.ts` |
@@ -174,3 +167,7 @@ Rules: lowercase · no period · imperative mood · under 72 chars
 - CleanSlice Docs: https://cleanslice.org
 - CleanSlice MCP: https://mcp.cleanslice.org
 - GitHub: https://github.com/CleanSlice/nest-nuxt-starter-kit
+
+## Reliability and authorization references
+
+Load `references/reliability.md` for transactions, provisioning, billing, retries, account linking, tenant isolation or migrations. Read the full MCP document named there before choosing an implementation. A successful build does not prove provider interoperability or release readiness.
