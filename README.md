@@ -12,6 +12,7 @@ Agent skills for the [CleanSlice](https://cleanslice.org) architecture framework
 | [`cleanslice`](./cleanslice/SKILL.md) | Complete CleanSlice architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
 | [`conventional-commits`](./conventional-commits/SKILL.md) | Conventional Commits v1.0.0 for git messages: commit types, scope (slice name), breaking changes, SemVer correlation |
 | [`orca`](./orca/SKILL.md) | Run a repository on Orca as a ticket-driven agent factory: isolated worktree and worker per task, per-workspace infrastructure, verification, owner acceptance and cleanup; skills, MCP and safety rules to carry into a new project |
+| [`docs`](./docs/SKILL.md) | Write and maintain a multilingual VitePress documentation site: pages that open with the point, an honest status on every claim, nothing invented, locales kept in parity, and a post-build checker for parity, dead anchors and orphan pages |
 
 ---
 
