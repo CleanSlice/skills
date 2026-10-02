@@ -1,22 +1,13 @@
----
-name: stripe
-description: Stripe API access via a restricted or secret key stored in the per-user secret vault. Exposed to agents as STRIPE_API_KEY.
----
-
 # Stripe
 
-Same setup mechanics as [[openai]] — secret-mechanism, vault-backed. This file covers Stripe-specific patterns and safety.
-
----
-
-## Quick Reference
+Provider specifics. The vault mechanism, setup flow and don'ts are in [../SKILL.md](../SKILL.md).
 
 | Need | Answer |
 |------|--------|
-| Mechanism | `secret` |
 | Env var | `STRIPE_API_KEY` |
 | Where to create | dashboard.stripe.com/apikeys |
-| Recommended | Restricted key with only the resources the agent touches |
+| Recommended | a restricted key scoped to the resources the agent touches |
+| Accounts | `test` (`sk_test_…`) and `live` as separate accountKeys |
 
 ---
 

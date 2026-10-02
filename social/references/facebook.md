@@ -1,23 +1,13 @@
----
-name: facebook
-description: Facebook and Meta Ads automation via a logged-in browser session — manage pages, run ad campaigns, read inbox. Shares the Meta cookie space with Instagram when accounts are linked.
----
-
 # Facebook / Meta Ads
 
-Same mechanics as the [[instagram]] skill — load that one first for the login flow, fingerprint notes, and `browser_play` patterns. This file documents only the Facebook-specific bits.
-
----
-
-## Quick Reference
+Platform specifics. The session, login and verification rules are in [../SKILL.md](../SKILL.md).
 
 | Need | Answer |
 |------|--------|
-| Tool | `browser_play` |
 | Profile | `facebook:<label>` (e.g. `facebook:main`, `facebook:client-acme`) |
 | Login URL | `https://www.facebook.com/login/` |
-| Meta link | One profile covers both Facebook AND linked Instagram if SSO is enabled |
-| Ads Manager | `https://adsmanager.facebook.com/` (same cookies) |
+| Meta link | One profile covers Facebook AND a linked Instagram when SSO is enabled |
+| Ads Manager | `https://adsmanager.facebook.com/` — same cookies |
 
 ---
 

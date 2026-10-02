@@ -1,22 +1,12 @@
----
-name: tiktok
-description: TikTok automation via a logged-in browser session — read trending content, post videos, pull analytics, scrape profiles.
----
-
 # TikTok
 
-Same mechanics as [[instagram]] — load that skill first for the login flow and `browser_play` basics.
-
----
-
-## Quick Reference
+Platform specifics. The session, login and verification rules are in [../SKILL.md](../SKILL.md).
 
 | Need | Answer |
 |------|--------|
-| Tool | `browser_play` |
 | Profile | `tiktok:<handle>` |
 | Login URL | `https://www.tiktok.com/login` |
-| Anti-bot | TikTok is the most aggressive of the social networks — keep navigation slow |
+| Anti-bot | The strictest of the four — 2-5 s between actions, never tight loops |
 
 ---
 

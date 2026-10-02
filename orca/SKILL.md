@@ -71,7 +71,7 @@ orca skills get orca-per-workspace-env
 | Step | Who | What |
 |---|---|---|
 | Queue | Owner (or coordinator on the owner's word) | Moves a ready, unblocked task to `Selected for Development`. Epics are never dispatched — only their children. |
-| Dispatch | Coordinator, `orca/dispatch.sh` | Worktree from `origin/main`, branch renamed (`feat/KEY`, `fix/KEY`, `docs/KEY`), setup must succeed, worker started with its prompt. |
+| Dispatch | Coordinator, `orca/dispatch.sh` | Worktree from `origin/main`, branch renamed to `<prefix>/KEY-<few-words>` (`feat/PROJ-114-org-api-keys`) — words given by the caller or derived from the ticket summary, and every "already in flight" check matches the key up to a `-` or the end so `PROJ-42` is never taken for `PROJ-428`, setup must succeed, worker started with its prompt. |
 | Implement | Worker | `In Progress`; reads the ticket **and its comments** (the DoD is often rewritten there); implements with focused checks. |
 | Verify | Same worker | `In Testing`; `orca/verify.sh KEY` — project gate, builds, project started in an Orca terminal, HTTP checks. Fix and repeat until green. |
 | Hand in | Same worker | Push, PR (the PR is the canonical report), one tracker comment with the explanation first, `In Review`. Leave the project running. |

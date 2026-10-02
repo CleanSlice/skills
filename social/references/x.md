@@ -1,67 +1,13 @@
----
-name: x
-description: X (formerly Twitter) automation via a logged-in browser session — post, reply, read timelines, DMs. Works with personal and business accounts.
----
-
 # X (Twitter)
 
-Same mechanics as [[instagram]] — load that skill first for the login flow and `browser_play` patterns.
-
----
-
-## Quick Reference
+Platform specifics. The session, login and verification rules are in [../SKILL.md](../SKILL.md).
 
 | Need | Answer |
 |------|--------|
-| Tool | `browser_play` |
-| Profile | `x:<accountKey>` — **discover it, never guess** (see below) |
+| Profile | `x:<accountKey>` |
 | Login URL | `https://x.com/i/flow/login` |
-| API alternative | x.com paid API is an option — pick `secret` mechanism if you have a key |
-
----
-
-## Step 0 — discover the profile, then just try it
-
-Two rules, in order:
-
-**1. Never guess the profile.** Call `integration_list`, take the exact
-`profile` field. Never use `"default"`, `"x"`, or a handle you assumed.
-
-**2. Always try `browser_play` first. Do NOT gate on `status`.**
-
-```ts
-const { accounts } = await integration_list()
-const x = accounts.find(a => a.service === "x")
-if (!x) {
-  // user hasn't connected X at all — tell them to open /integrations, stop
-  return
-}
-// Use x.profile verbatim. Go STRAIGHT to browser_play — do not look at
-// x.status. The status field is advisory and frequently stale (it can
-// say "needs_login" while the cookies are perfectly valid). The ONLY
-// trustworthy login signal is browser_play's own response.
-const result = await browser_play({ profile: x.profile, actions: [...] })
-
-if (result.needsLogin) {
-  // NOW — and only now — the session is genuinely dead. Call
-  // integration_request_login, forward the instructions, then STOP.
-  const help = await integration_request_login({
-    service: x.service, accountKey: x.accountKey,
-  })
-  await ctx.send(help.instructions)
-  return
-}
-// result.ok → use it.
-```
-
-> ⚠️ Do NOT call `integration_request_login` just because
-> `integration_list` returned `status: "needs_login"` or `"pending"`.
-> That status is not a reliable gate. Run `browser_play` and let its
-> `needsLogin` field decide. Skipping `browser_play` because of a stale
-> status is the #1 reason posts silently never happen.
-
-Every recipe below writes `x:dimzhuk` as a placeholder — substitute the
-real `profile` from `integration_list`.
+| Write limits | ~50 posts/hour free, ~300 on Premium |
+| API alternative | x.com's paid API exists — use the `secret` mechanism if you have a key |
 
 ---
 
@@ -193,9 +139,5 @@ These were learned the hard way — keep them in mind when adapting the recipes.
 
 ## Don't
 
-- Don't burst-post — X applies hourly write limits per account (50 posts/hour for free, ~300 for paid Premium).
-- Don't rely on `nitter` mirrors as a fallback — they're rate-limited or down most of the time.
-- Don't trust the LLM's "пост опубликован" narration without a post-flight verification step that reads the top tweet on `/<your-handle>`.
-- Don't try to fill the X login form with username/password — when cookies are stale, call `integration_request_login({ service: 'x', accountKey: '<accountKey>' })` and forward the returned instructions to the user.
-- Don't reference `browser_login` / VNC anywhere — those tools were removed. The login path is `integration_request_login` → user pushes cookies via the Ranch extension.
-- Don't guess the profile. Always `integration_list` first and use the returned `profile` verbatim. Guessing `x:default` is the #1 cause of false "needs login" failures.
+- Don't burst-post — X applies hourly write limits per account (50 posts/hour free, ~300 on Premium).
+- Don't rely on `nitter` mirrors as a fallback — they are rate-limited or down most of the time.

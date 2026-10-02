@@ -1,35 +1,23 @@
----
-name: paypal
-description: PayPal Orders v2 API access via OAuth client_credentials. Two secrets per account (client_id + client_secret), exposed to agents as PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET. Server-side only — checkout buttons, Pay Later messaging, Apple/Google Pay belong in the storefront, not in an agent skill.
----
-
 # PayPal
 
-Same setup mechanics as [[openai]] — secret-mechanism, vault-backed — but PayPal
-needs **two** credentials (client_id + client_secret) and uses OAuth
-`client_credentials` to mint a short-lived bearer token. This file covers what's
-different from [[stripe]]: the OAuth dance, sandbox vs live separation, and
-which mutations require explicit user confirmation.
+Provider specifics. The vault mechanism, setup flow and don'ts are in [../SKILL.md](../SKILL.md).
 
----
-
-## Quick Reference
+PayPal is the awkward one: it needs **two** credentials and trades them for a
+short-lived bearer token via OAuth `client_credentials`.
 
 | Need | Answer |
 |------|--------|
-| Mechanism | `secret` |
 | Env vars | `PAYPAL_CLIENT_ID` + `PAYPAL_CLIENT_SECRET` |
 | Per-account aliases | `PAYPAL_CLIENT_ID_<ACCOUNTKEY>` (e.g. `_SANDBOX`, `_LIVE`) |
 | Base URLs | `api-m.sandbox.paypal.com` (sandbox) / `api-m.paypal.com` (live) |
 | Token lifetime | ~9h (`access_token` from `/v1/oauth2/token`) |
 | Where to create | developer.paypal.com → Apps & Credentials |
 
-> **Catalogue note.** The integration catalogue today exposes one
-> `secretEnvKey` per service. Until that's extended, the recommended convention
-> is two separate accountKeys on the same service:
-> `paypal:client_id` and `paypal:secret`. Resolve both via `integration_secrets`
-> and pair them in code (see snippet below). The cleaner alternative is a small
-> extension to `catalogue.ts` and the connect dialog to accept two fields —
+> **Catalogue note.** The integration catalogue exposes one `secretEnvKey` per
+> service today. Until that is extended, use two accountKeys on the same
+> service — `paypal:client_id` and `paypal:secret` — resolve both through
+> `integration_secrets` and pair them in code. The cleaner fix is a small
+> extension to `catalogue.ts` and the connect dialog to accept two fields;
 > file a ticket against the integration slice if you need it.
 
 ---
@@ -138,7 +126,7 @@ await fetch(`${base}/v2/checkout/orders/${order.id}/capture`, {
 ## Safety rails
 
 Charging, capturing, and refunding are irreversible — wrap every mutation
-in an explicit user confirmation, same pattern as [[stripe]]:
+in an explicit user confirmation, the same pattern as [Stripe](stripe.md):
 
 ```ts
 await ctx.send(
