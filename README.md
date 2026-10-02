@@ -6,13 +6,30 @@ Agent skills for the [CleanSlice](https://cleanslice.org) architecture framework
 
 ## Available Skills
 
+Eight skills. Five cover one subject each; three group a family that shares a
+mechanism, with the per-member detail in `references/`.
+
 | Skill | Description |
 |-------|-------------|
-| [`setup`](./setup/SKILL.md) | Claude Code setup: install MCP server and development skills (shadcn-vue, cleanslice, conventional-commits) |
-| [`cleanslice`](./cleanslice/SKILL.md) | Complete CleanSlice architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
-| [`conventional-commits`](./conventional-commits/SKILL.md) | Conventional Commits v1.0.0 for git messages: commit types, scope (slice name), breaking changes, SemVer correlation |
-| [`orca`](./orca/SKILL.md) | Run a repository on Orca as a ticket-driven agent factory: isolated worktree and worker per task, per-workspace infrastructure, verification, owner acceptance and cleanup; skills, MCP and safety rules to carry into a new project |
-| [`docs`](./docs/SKILL.md) | Write and maintain a multilingual VitePress documentation site: pages that open with the point, an honest status on every claim, nothing invented, locales kept in parity, and a post-build checker for parity, dead anchors and orphan pages |
+| [`cleanslice`](./cleanslice/SKILL.md) | The architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
+| [`project`](./project/SKILL.md) | Setting up and operating a project: Claude Code + MCP bootstrap, Orca as a ticket-driven agent factory, tool recipes for git, auth recovery, stack traces and codebase search |
+| [`social`](./social/SKILL.md) | Social platforms through a logged-in browser session — Instagram, X, TikTok, Facebook/Meta Ads |
+| [`integrations`](./integrations/SKILL.md) | Third-party API keys from the per-user secret vault — OpenAI, Stripe, PayPal |
+| [`github`](./github/SKILL.md) | GitHub workflow automation: repositories, Actions, PR review with inline comments, releases |
+| [`docs`](./docs/SKILL.md) | Write and maintain a multilingual VitePress documentation site: pages that open with the point, an honest status on every claim, locales in parity, and a post-build checker for dead anchors and orphan pages |
+| [`bridle`](./bridle/SKILL.md) | Embed the Bridle webchat into a website: SDK wiring, embed JWTs, Shadow DOM theming |
+| [`conventional-commits`](./conventional-commits/SKILL.md) | Conventional Commits v1.0.0: commit types, scope (slice name), breaking changes, SemVer correlation |
+
+Each grouped skill is one file to read plus one reference per member:
+
+```
+social/SKILL.md              → references/{instagram,x,tiktok,facebook}.md
+integrations/SKILL.md        → references/{openai,stripe,paypal}.md
+project/SKILL.md             → references/{claude-code-setup,recipes,orca}.md + references/orca/
+```
+
+Read the SKILL.md first — it holds the mechanism every member shares. The
+reference adds only what is specific to one platform or provider.
 
 ---
 
@@ -24,15 +41,15 @@ Skills follow the [Agent Skills](https://agentskills.io) open standard and work 
 
 ```bash
 # Install a specific skill
-npx skills add CleanSlice/skills --skill setup
-npx skills add CleanSlice/skills --skill cleanslice
-npx skills add CleanSlice/skills --skill conventional-commits
+bunx skills add CleanSlice/skills --skill cleanslice
+bunx skills add CleanSlice/skills --skill project
+bunx skills add CleanSlice/skills --skill conventional-commits
 
 # Install all CleanSlice skills
-npx skills add CleanSlice/skills
+bunx skills add CleanSlice/skills
 
 # Update to the latest version
-npx skills update CleanSlice/skills
+bunx skills update CleanSlice/skills
 ```
 
 The `skills` CLI ([vercel-labs/skills](https://github.com/vercel-labs/skills)) automatically places the skill in the right location for your agent.
@@ -62,9 +79,11 @@ cp -r /tmp/cleanslice-skills/cleanslice ~/.claude/skills/
 Once installed, skills are available in Claude Code:
 
 ```
-/setup                   # MCP + skills installation
 /cleanslice              # Architecture conventions
+/project                 # MCP + skills installation, Orca, tool recipes
 /conventional-commits    # Commit message format
+/social                  # Instagram, X, TikTok, Facebook
+/integrations            # OpenAI, Stripe, PayPal keys
 ```
 
 Claude loads skills automatically when relevant — `/cleanslice` activates on CleanSlice projects, `/conventional-commits` activates when writing commit messages.
@@ -79,7 +98,7 @@ The `cleanslice` skill bundles six reference documents:
 
 | Reference | Contents |
 |-----------|----------|
-| [`references/workflow.md`](./cleanslice/references/workflow.md) | Four-phase workflow, bug fix workflow, git commit format, system prompt |
+| [`references/workflow.md`](./cleanslice/references/workflow.md) | Authorized workflow (understand → plan → implement → verify), bug fix workflow, git commit format |
 | [`references/backend.md`](./cleanslice/references/backend.md) | NestJS slice structure, module, controller, service, gateway, mapper, DTOs, types |
 | [`references/frontend.md`](./cleanslice/references/frontend.md) | Nuxt slice structure, auto-imports, Provider.vue, Pinia stores, composables |
 | [`references/gateway.md`](./cleanslice/references/gateway.md) | Gateway pattern with full code examples, abstract class, DI wiring |

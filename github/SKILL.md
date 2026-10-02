@@ -5,9 +5,7 @@ description: GitHub workflow automation via the per-user secret vault. Create an
 
 # GitHub
 
-The user's GitHub token lives in the ranch per-user secret vault — set once via the admin UI, resolved lazily by the runtime on each tool invocation. Agents see it as the environment variable `GITHUB_TOKEN`.
-
-Same setup mechanics as [[openai]] — load that skill first for the secret-vault flow. This file covers GitHub-specific usage.
+The user's GitHub token lives in the ranch per-user secret vault — set once via the admin UI, resolved lazily by the runtime on each tool invocation. Agents see it as the environment variable `GITHUB_TOKEN`. The `integrations` skill documents that mechanism in general (storing, resolving, aliases, what never to log); this file covers GitHub-specific usage.
 
 ---
 

@@ -36,7 +36,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 
 **References** (`references/`):
 
-- `workflow.md` — Four-phase workflow, fix-bug workflow, git commits, system prompt
+- `workflow.md` — authorized workflow, fix-bug workflow, git commits
 - `backend.md` — NestJS slice structure, module, controller, service, gateway, mapper, DTOs, types
 - `frontend.md` — Nuxt slice structure, auto-imports, Provider.vue, stores, composables
 - `gateway.md` — Gateway pattern with full code examples (abstract class, DI wiring)
@@ -50,7 +50,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 1. **Load `references/workflow.md` when:**
    - Starting any new feature, project, or bug fix
    - User asks how to plan or structure work
-   - Need the four-phase workflow or system prompt
+   - Need the stage-by-stage workflow or the commit format
    - **Trigger phrases:** "new feature", "add", "create", "build", "implement", "plan", "start"
 
 2. **Load `references/backend.md` when:**

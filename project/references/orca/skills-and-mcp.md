@@ -59,6 +59,6 @@ For Codex, MCP servers and the model live in `~/.codex/config.toml`
 
 ## Claude Code project settings worth copying
 
-- `permissions.deny` — the safety set in [SKILL.md](../SKILL.md#safety).
+- `permissions.deny` — the safety set in [orca.md](../orca.md#safety).
 - `additionalDirectories` — temp dirs and `~/.claude` so agents can use scratch space.
 - Hooks — the graft hooks above; nothing that mutates the repo on its own.

@@ -1,14 +1,8 @@
----
-name: devops
-description: Git push, file operations, stack trace debugging, auth recovery, codebase search — recipes for development tasks
-metadata:
-  emoji: "🔧"
-  always: true
----
+# Tool recipes
 
-# DevOps Skill — Tool Recipes
-
-Follow these exact sequences when performing development tasks. These are NOT suggestions — they are mandatory procedures.
+Exact sequences for routine development actions. These are not suggestions —
+they are the orders in which these tools actually succeed. The summary table
+lives in [../SKILL.md](../SKILL.md); this file is the full version.
 
 ---
 

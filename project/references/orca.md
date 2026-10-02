@@ -1,8 +1,3 @@
----
-name: orca
-description: Run a repository on Orca as a ticket-driven agent factory — tracker queue, one isolated worktree and agent worker per task, per-workspace infrastructure, verification, owner review, acceptance and cleanup. Use when setting up a new project for Orca (orca.yaml, setup/teardown hooks, dispatch scripts, worker prompts), dispatching or accepting tasks, debugging a worker that never received its prompt or a workspace whose setup fails, or deciding which skills, MCP servers and safety rules a project needs.
----
-
 # Orca: running a project as an agent factory
 
 [Orca](https://github.com/stablyai/orca) manages git worktrees, terminals and coding
@@ -76,7 +71,7 @@ orca skills get orca-per-workspace-env
 | Verify | Same worker | `In Testing`; `orca/verify.sh KEY` — project gate, builds, project started in an Orca terminal, HTTP checks. Fix and repeat until green. |
 | Hand in | Same worker | Push, PR (the PR is the canonical report), one tracker comment with the explanation first, `In Review`. Leave the project running. |
 | Review | Owner | PR, card, running project. Feedback goes back to the same worker: `In Progress` → `In Testing` → `In Review`. |
-| Accept | Coordinator on the owner's word | See [references/acceptance.md](references/acceptance.md). |
+| Accept | Coordinator on the owner's word | See [orca/acceptance.md](orca/acceptance.md). |
 
 Parallelism: never run two tasks that edit the same module/slice at once — each
 passes review alone and they conflict on merge. Before dispatching, check the
@@ -186,7 +181,7 @@ death: keep `live` / `unverifiable` / `exited` distinct.
 
 ## Setup, isolation, teardown
 
-Details and traps: [references/workspace-infrastructure.md](references/workspace-infrastructure.md).
+Details and traps: [orca/workspace-infrastructure.md](orca/workspace-infrastructure.md).
 
 In short: `setup.sh` allocates a port block, copies `.env` files from the root
 checkout, installs dependencies from the lockfile, creates a dev **and** a test
@@ -223,7 +218,7 @@ verifies nothing — that is its own task, not noise.
 ## Acceptance
 
 Order is fixed: **merge → update main → Done → clean up**. Full checklist and traps:
-[references/acceptance.md](references/acceptance.md).
+[orca/acceptance.md](orca/acceptance.md).
 
 ---
 
@@ -271,12 +266,12 @@ values.
 ## Skills and MCP servers
 
 The set we run with, by purpose, and what to carry into a new project:
-[references/skills-and-mcp.md](references/skills-and-mcp.md).
+[orca/skills-and-mcp.md](orca/skills-and-mcp.md).
 
 ## Known pitfalls
 
 Symptom → cause → fix table from real runs:
-[references/pitfalls.md](references/pitfalls.md).
+[orca/pitfalls.md](orca/pitfalls.md).
 
 ---
 
