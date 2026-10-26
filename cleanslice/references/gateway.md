@@ -97,7 +97,12 @@ export class UserGateway extends IUserGateway {
     const perPage = filter?.perPage ?? 20;
     const page = filter?.page ?? 1;
     const [results, total] = await Promise.all([
-      this.prisma.user.findMany({ where, take: perPage, skip: (page - 1) * perPage }),
+      this.prisma.user.findMany({
+        where,
+        take: perPage,
+        skip: (page - 1) * perPage,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], // always end on the primary key
+      }),
       this.prisma.user.count({ where }),
     ]);
     return {
