@@ -236,7 +236,7 @@ import { Injectable } from '@nestjs/common';
 import { readFile } from 'fs/promises';
 
 // 2. External packages
-import { v4 as uuid } from 'uuid';
+import * as bcrypt from 'bcrypt';
 
 // 3. Slice aliases (#SLICE_NAME) — cross-slice
 import { PrismaService } from '#prisma';

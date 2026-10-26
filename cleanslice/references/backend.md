@@ -115,9 +115,10 @@ export abstract class IUserGateway {
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { IUserGateway } from '../domain/user.gateway';
-import { IUserData, ICreateUserData, IUpdateUserData, IUserFilter } from '../domain/user.types';
+import { IUserData, ICreateUserData, IUpdateUserData, IUserFilter, USER_ID_PREFIX } from '../domain/user.types';
 import { UserMapper } from './user.mapper';
 import { PrismaService } from '#prisma';
+import { formatId, withIdRetry } from '#setup/id';
 import { IMetaResponse } from '#core/domain';
 
 @Injectable()
@@ -144,7 +145,12 @@ export class UserGateway extends IUserGateway {
     const page = filter?.page ?? 1;
 
     const [results, total] = await Promise.all([
-      this.prisma.user.findMany({ where, take: perPage, skip: (page - 1) * perPage }),
+      this.prisma.user.findMany({
+        where,
+        take: perPage,
+        skip: (page - 1) * perPage,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], // always end on the primary key
+      }),
       this.prisma.user.count({ where }),
     ]);
 
@@ -160,7 +166,10 @@ export class UserGateway extends IUserGateway {
   }
 
   async createUser(data: ICreateUserData): Promise<IUserData> {
-    const result = await this.prisma.user.create({ data: this.map.toCreate(data) });
+    // Primary ID standard: mint inside the write, retry only an `id` collision
+    const result = await withIdRetry(() =>
+      this.prisma.user.create({ data: { id: formatId(USER_ID_PREFIX), ...this.map.toCreate(data) } }),
+    );
     return this.map.toData(result);
   }
 
@@ -188,7 +197,6 @@ export class UserGateway extends IUserGateway {
 import { Injectable } from '@nestjs/common';
 import { User as PrismaUser, Prisma } from '@prisma/client';
 import { IUserData, ICreateUserData, IUpdateUserData, RoleTypes } from '../domain/user.types';
-import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UserMapper {
@@ -203,9 +211,9 @@ export class UserMapper {
     };
   }
 
-  toCreate(data: ICreateUserData): Prisma.UserCreateInput {
+  /** Everything but the id: the gateway mints that with formatId(USER_ID_PREFIX). */
+  toCreate(data: ICreateUserData): Omit<Prisma.UserCreateInput, 'id'> {
     return {
-      id: `user-${uuid()}`,
       name: data.name,
       email: data.email.toLowerCase().trim(),
       roles: data.roles ?? [RoleTypes.User],

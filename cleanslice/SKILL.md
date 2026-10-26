@@ -26,6 +26,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 | State management | Pinia `stores/` (NOT composables) |
 | Component entry | `Provider.vue` required in every folder |
 | DI tokens | Abstract class with `I` prefix: `IUserGateway` |
+| Primary IDs | `<prefix>-<adjective>-<noun>-<12 Crockford>`; gateway mints with `formatId(prefix)` inside `withIdRetry`; validate with `@IsEntityId(prefix)` / `EntityIdPipe`; never `@default(uuid())`/`cuid()` |
 | Backend order | schema → types → gateway → service → mapper → dtos → controller → module |
 | Frontend order | nuxt.config → stores → components → pages |
 | Implementation order | API first, then App |
@@ -42,6 +43,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
 - `gateway.md` — Gateway pattern with full code examples (abstract class, DI wiring)
 - `typescript.md` — TypeScript standards (no-any, I prefix, Types suffix, import aliases)
 - `errors.md` — Error pattern (BaseError, domain errors, interceptor, no try/catch in controllers)
+- `reliability.md` — Map to the MCP architecture documents: transactions, reliable external operations, authorization context, migrations and evidence
 
 ---
 
@@ -57,7 +59,7 @@ CleanSlice organizes code into **vertical slices** — self-contained feature mo
    - Implementing any API slice (NestJS)
    - Writing controllers, gateways, mappers, DTOs, modules
    - Questions about backend file structure or standards
-   - **Trigger phrases:** "controller", "DTO", "module", "NestJS", "API", "endpoint", "Prisma"
+   - **Trigger phrases:** "controller", "DTO", "module", "NestJS", "API", "endpoint", "Prisma", "id", "primary key", "uuid"
 
 3. **Load `references/frontend.md` when:**
    - Implementing any App slice (Nuxt)
@@ -128,6 +130,7 @@ api/src/slices/{slice}/             app/slices/{slice}/
 | Extra repository layer over Prisma | Gateway uses Prisma directly; independent adapters/capabilities may be repositories |
 | Domain directly imports an external SDK | Domain gateway contract → data gateway → independent SDK adapter |
 | `UserRepository` | `UserGateway` (Prisma IS the repository) |
+| `@default(uuid())`, `cuid()`, `uuid()` for a primary key | `id String @id`; gateway: `formatId(USER_ID_PREFIX)` in `withIdRetry` |
 | `composables/useChat.ts` for state | `stores/chat.ts` |
 | `create-message.dto.ts` | `createMessage.dto.ts` |
 | `ChatWindow.vue` | `chat/Provider.vue` |

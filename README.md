@@ -11,7 +11,7 @@ mechanism, with the per-member detail in `references/`.
 
 | Skill | Description |
 |-------|-------------|
-| [`cleanslice`](./cleanslice/SKILL.md) | The architecture: vertical slices, gateway pattern, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
+| [`cleanslice`](./cleanslice/SKILL.md) | The architecture: vertical slices, gateway pattern, primary ID standard, Provider.vue, Pinia stores, DTOs, TypeScript standards, error handling |
 | [`project`](./project/SKILL.md) | Setting up and operating a project: Claude Code + MCP bootstrap, Orca as a ticket-driven agent factory, tool recipes for git, auth recovery, stack traces and codebase search |
 | [`social`](./social/SKILL.md) | Social platforms through a logged-in browser session — Instagram, X, TikTok, Facebook/Meta Ads |
 | [`integrations`](./integrations/SKILL.md) | Third-party API keys from the per-user secret vault — OpenAI, Stripe, PayPal |
@@ -94,7 +94,7 @@ Claude loads skills automatically when relevant — `/cleanslice` activates on C
 
 ### cleanslice
 
-The `cleanslice` skill bundles six reference documents:
+The `cleanslice` skill bundles seven reference documents:
 
 | Reference | Contents |
 |-----------|----------|
@@ -104,6 +104,7 @@ The `cleanslice` skill bundles six reference documents:
 | [`references/gateway.md`](./cleanslice/references/gateway.md) | Gateway pattern with full code examples, abstract class, DI wiring |
 | [`references/typescript.md`](./cleanslice/references/typescript.md) | TypeScript standards: no-any, I prefix, Types suffix, import aliases |
 | [`references/errors.md`](./cleanslice/references/errors.md) | Error pattern: BaseError, domain errors, interceptor, no try/catch in controllers |
+| [`references/reliability.md`](./cleanslice/references/reliability.md) | Map to the MCP architecture documents: transactions, reliable external operations, authorization context, migrations and evidence |
 
 ### setup
 
